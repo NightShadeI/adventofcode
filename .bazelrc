@@ -1,0 +1,10 @@
+build --compiler=mingw-gcc
+build --enable_runfiles
+build --cxxopt=-std=c++23
+
+build --cxxopt=-Werror
+build --cxxopt=-Wall
+build --cxxopt=-Wpedantic
+build --cxxopt=-Wextra
+build --cxxopt=-Wconversion
+build --cxxopt=-Wshadow
