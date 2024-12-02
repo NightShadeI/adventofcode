@@ -8,7 +8,7 @@
 
 int main()
 {
-    const auto myRows = FileReader::readColumns<2>(NonCopyablePath{"p1/input.txt"});
+    const auto myRows = FileReader::readColumns(NonCopyablePath{"p1/input.txt"});
     const auto myDecodedRows = rowsToInts(myRows);
 
     std::unordered_map<int, int> myValueCounts;

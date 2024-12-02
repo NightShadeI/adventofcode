@@ -21,10 +21,9 @@ struct NonCopyablePath : public NonCopyable
 class FileReader
 {
 public:
-    template<size_t NumColumns>
-    [[nodiscard]] static std::vector<std::array<std::string, NumColumns>> readColumns(NonCopyablePath aPath, std::string_view aDelim = "   ")
+    [[nodiscard]] static std::vector<std::vector<std::string>> readColumns(NonCopyablePath aPath, std::string_view aDelim = "   ")
     {
-        std::vector<std::array<std::string, NumColumns>> myRows;
+        std::vector<std::vector<std::string>> myRows;
         std::ifstream myFileStream{aPath.thePath};
 
         if (!myFileStream)
@@ -36,11 +35,9 @@ public:
         while (std::getline(myFileStream, myLine))
         {
             auto& myRow = myRows.emplace_back();
-            for (const auto [myIdx, myValue] : std::views::split(myLine, aDelim) 
-                                                | std::views::enumerate
-                                                | std::views::take(NumColumns))
+            for (const auto myValue : std::views::split(myLine, aDelim))
             {
-                myRow[myIdx] = std::string_view{myValue};
+               myRow.emplace_back(std::string_view{myValue});
             }
         }
 

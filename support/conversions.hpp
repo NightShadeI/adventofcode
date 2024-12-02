@@ -25,16 +25,15 @@
     }
 };
 
-template<size_t NumColumns>
-[[nodiscard]] inline std::vector<std::array<int, NumColumns>> rowsToInts(
-    const std::vector<std::array<std::string, NumColumns>>& aRows)
+[[nodiscard]] inline std::vector<std::vector<int>> rowsToInts(
+    const std::vector<std::vector<std::string>>& aRows)
 {
-    std::vector<std::array<int, NumColumns>> myDecodedInts;
+    std::vector<std::vector<int>> myDecodedInts;
 
     for (const auto& [myRowIdx, myRow] : aRows | std::views::enumerate)
     {
         auto& myDecodedRow = myDecodedInts.emplace_back();
-        for (const auto& [myColIdx, myNumStr] : myRow | std::views::enumerate)
+        for (const std::string& myNumStr : myRow)
         {
             const auto myDecodedNum = toInt(myNumStr).or_else([myRowIdx]{
                 throw std::runtime_error{
@@ -42,7 +41,7 @@ template<size_t NumColumns>
                 return std::optional{0};
             }).value();
 
-            myDecodedRow[myColIdx] = myDecodedNum;
+            myDecodedRow.emplace_back(myDecodedNum);
         }
     }
 
