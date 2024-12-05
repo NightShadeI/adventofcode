@@ -24,6 +24,22 @@ public:
     [[nodiscard]] static std::vector<std::vector<std::string>> readColumns(NonCopyablePath aPath, std::string_view aDelim = "   ")
     {
         std::vector<std::vector<std::string>> myRows;
+
+        processLines(std::move(aPath), [&](const std::string& aLine){
+
+            auto& myRow = myRows.emplace_back();
+            for (const auto myValue : std::views::split(aLine, aDelim))
+            {
+               myRow.emplace_back(std::string_view{myValue});
+            }
+        });
+
+        return myRows;
+    }
+
+    template<std::invocable<const std::string&> LineHandlerT>
+    static void processLines(NonCopyablePath aPath, LineHandlerT&& aLineHandler)
+    {
         std::ifstream myFileStream{aPath.thePath};
 
         if (!myFileStream)
@@ -34,14 +50,9 @@ public:
         std::string myLine{};
         while (std::getline(myFileStream, myLine))
         {
-            auto& myRow = myRows.emplace_back();
-            for (const auto myValue : std::views::split(myLine, aDelim))
-            {
-               myRow.emplace_back(std::string_view{myValue});
-            }
+            aLineHandler(myLine);
         }
 
-        return myRows;
     }
 
 };
