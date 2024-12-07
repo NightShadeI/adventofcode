@@ -20,14 +20,10 @@ int main()
         auto mySearchIt{myLine.cbegin()};
         while (std::regex_search(mySearchIt, myLine.cend(), myMatchResult, myPattern))
         {
-            const auto myPossibleLhsInt{toInt(myMatchResult[1].str())};
-            const auto myPossibleRhsInt{toInt(myMatchResult[2].str())};
-            if (!myPossibleLhsInt.has_value() || !myPossibleRhsInt.has_value())
-            {
-                break;
-            }
+            const auto myLhsInt{toInt(myMatchResult[1].str())};
+            const auto myRhsInt{toInt(myMatchResult[2].str())};
 
-            myTotal += (myPossibleLhsInt.value() * myPossibleRhsInt.value());
+            myTotal += myLhsInt * myRhsInt;
             mySearchIt = myMatchResult.suffix().first;
         }
     }

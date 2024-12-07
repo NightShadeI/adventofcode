@@ -23,28 +23,20 @@ struct PageProcessor
             for (const auto myValue : std::views::split(aLine, '|') | std::views::adjacent<2>)
             {
                 const auto [myPreceedingStr, myPostceedingStr] = myValue;
-                const auto myPossiblePreceedingInt{toInt(std::string_view{myPreceedingStr})};
-                const auto myPossiblePostceedingInt{toInt(std::string_view{myPostceedingStr})};
-                if (!myPossiblePostceedingInt.has_value() || !myPossiblePostceedingInt.has_value())
-                {
-                    break;
-                }
+                const auto myPreceedingInt{toInt(std::string_view{myPreceedingStr})};
+                const auto myPostceedingInt{toInt(std::string_view{myPostceedingStr})};
 
-                theRankingMatrix.emplace(*myPossiblePreceedingInt, *myPossiblePostceedingInt);
+                theRankingMatrix.emplace(myPreceedingInt, myPostceedingInt);
             }
         }
         else
         {
             std::vector<int> myValues{};
-            for (const auto myValue : std::views::split(aLine, ','))
+            for (const auto myValueStr : std::views::split(aLine, ','))
             {
-                const auto myPossibleValue{toInt(std::string_view{myValue})};
-                if (!myPossibleValue.has_value())
-                {
-                    break;
-                }
+                const auto myValue{toInt(std::string_view{myValueStr})};
 
-                myValues.emplace_back(*myPossibleValue);
+                myValues.emplace_back(myValue);
             }
 
             bool myFoundInvalidLine{false};

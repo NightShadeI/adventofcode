@@ -1,19 +1,20 @@
 #pragma once
 
+#include <cstdint>
 #include <charconv>
 #include <optional>
 #include <ranges>
 #include <string_view>
 #include <vector>
 
-[[nodiscard]] inline std::optional<int> toInt(std::string_view aString)
+[[nodiscard]] inline std::int64_t toInt(std::string_view aString)
 {
-    int myValue{};
+    std::int64_t myValue{};
 
     const auto myResult = std::from_chars(aString.data(), aString.data() + aString.size(), myValue);
     if (myResult.ptr != aString.cend())
     {
-        return std::nullopt;
+        throw std::runtime_error{"Could only partially decode integer."};
     }
     else if (myResult.ec == std::errc{})
     {
@@ -21,7 +22,7 @@
     }
     else
     {
-        return std::nullopt;
+        throw std::runtime_error{"Could not decode integer."};
     }
 };
 
@@ -35,13 +36,7 @@
         auto& myDecodedRow = myDecodedInts.emplace_back();
         for (const std::string& myNumStr : myRow)
         {
-            const auto myDecodedNum = toInt(myNumStr).or_else([myRowIdx]{
-                throw std::runtime_error{
-                    std::string{"Line "} + std::to_string(myRowIdx+1) + " was not decodable."};
-                return std::optional{0};
-            }).value();
-
-            myDecodedRow.emplace_back(myDecodedNum);
+            myDecodedRow.emplace_back(toInt(myNumStr));
         }
     }
 
