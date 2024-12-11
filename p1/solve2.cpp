@@ -11,17 +11,17 @@ int main()
     const auto myRows = FileReader::readColumns(NonCopyablePath{"p1/input.txt"});
     const auto myDecodedRows = rowsToInts(myRows);
 
-    std::unordered_map<int, int> myValueCounts;
+    std::unordered_map<std::int64_t, std::int64_t> myValueCounts;
 
     for (const auto& myDecodedRow : myDecodedRows)
     {
         ++myValueCounts[myDecodedRow[1]];
     }
 
-    const int myTotalScore{std::ranges::fold_left(myDecodedRows, 0,
-        [&myValueCounts](int aCurrentCount, const auto& aCurrentRow)
+    const std::int64_t myTotalScore{std::ranges::fold_left(myDecodedRows, 0,
+        [&myValueCounts](std::int64_t aCurrentCount, const auto& aCurrentRow)
     {
-        const int myLocationId{aCurrentRow[0]}; 
+        const std::int64_t myLocationId{aCurrentRow[0]}; 
         return aCurrentCount + myLocationId * myValueCounts[myLocationId];
     })};
 

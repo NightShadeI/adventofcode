@@ -12,7 +12,7 @@ int main()
     int myTotal{0};
     for (const auto& myRow : myDecodedRows)
     {
-        const auto myDiffSafe = [](int aFirst, int aSecond){ return aFirst - aSecond <= 3; };
+        const auto myDiffSafe = [](std::int64_t aFirst, std::int64_t aSecond){ return aFirst - aSecond <= 3; };
 
         const bool mySafeIncrease{std::ranges::all_of(myRow | std::views::adjacent<2>, 
             [&](const auto& aWindow)

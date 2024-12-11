@@ -8,7 +8,7 @@
 template <typename R, typename InequalityCheckT>
 [[nodiscard]] bool validateRange(R&& aRange, InequalityCheckT anInequalityCheck)
 {
-    const auto myGapSafe{[anInequalityCheck](int aFirst, int aSecond){ 
+    const auto myGapSafe{[anInequalityCheck](std::int64_t aFirst, std::int64_t aSecond){ 
         return std::abs(aFirst - aSecond) <= 3 && anInequalityCheck(aFirst, aSecond); }};
     
     const auto myPairedView{aRange | std::views::adjacent<3>};
@@ -42,7 +42,7 @@ int main()
     const auto myDecodedRows{rowsToInts(myRows)};
 
     const int64_t myTotal{std::ranges::count_if(myDecodedRows, [](const auto& aRow){
-        return validateRange(aRow, std::greater<int>{}) || validateRange(aRow, std::less<int>{});
+        return validateRange(aRow, std::greater<std::int64_t>{}) || validateRange(aRow, std::less<std::int64_t>{});
     })};
 
     std::cout << "Solution: " << myTotal << '\n';
