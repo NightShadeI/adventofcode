@@ -26,10 +26,10 @@
     }
 };
 
-[[nodiscard]] inline std::vector<std::vector<int>> rowsToInts(
+[[nodiscard]] inline std::vector<std::vector<std::int64_t>> rowsToInts(
     const std::vector<std::vector<std::string>>& aRows)
 {
-    std::vector<std::vector<int>> myDecodedInts;
+    std::vector<std::vector<std::int64_t>> myDecodedInts;
 
     for (const auto& [myRowIdx, myRow] : aRows | std::views::enumerate)
     {

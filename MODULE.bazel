@@ -5,8 +5,13 @@
 # For more details, please check https://github.com/bazelbuild/bazel/issues/18958
 ###############################################################################
 
-cc_configure = use_extension("@bazel_tools//tools/cpp:cc_configure.bzl", "cc_configure_extension")
+
+bazel_dep(name = "rules_cc", version = "0.0.10")
+
+cc_configure = use_extension("@rules_cc//cc:extensions.bzl", "cc_configure_extension")
 use_repo(cc_configure, "local_config_cc")
+
+bazel_dep(name = "platforms", version = "0.0.10")
 
 register_execution_platforms(
     "//:mingw"
