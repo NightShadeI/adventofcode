@@ -58,7 +58,6 @@ struct Position
 struct TrackedFence
 {
     char thePlantType{};
-    // char theBoundaryPlant{};
     Position theStartPosition{-1, -1};
 };
 
