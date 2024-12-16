@@ -3,7 +3,8 @@ cc_library(
     hdrs = [
         "conversions.hpp",
         "filereader.hpp",
-        "nocopy.hpp"
+        "nocopy.hpp",
+        "strprocessing.hpp"
     ],
     visibility = ["//visibility:public"]
 )
