@@ -126,11 +126,9 @@ int main()
                     myBestPaths.emplace(myPosition);
                 }
                 myBestCost = myCurrentCost;
-                std::cout << "New path with length: " << myCurrentCost << '\n';
             }
             else
             {
-                std::cout << "Worse path with length: " << myCurrentCost << '\n';
                 std::cout << "Solution: " << myBestPaths.size() << '\n';
                 break;
             }
