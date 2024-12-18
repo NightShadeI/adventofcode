@@ -54,13 +54,6 @@ int main()
             break;
         }
 
-        if (myMap[myCurrentPos.theY][myCurrentPos.theX])
-        {
-            continue;
-        }
-
-        myMap[myCurrentPos.theY][myCurrentPos.theX] = true;
-
         static constexpr std::array DIRECTIONS{
             std::make_pair(0, -1),
             std::make_pair(1, 0),
@@ -73,6 +66,7 @@ int main()
                 myCurrentPos.theX + myXDir, myCurrentPos.theY + myYDir};
             if (inBounds(myMap, myProposedPosition) && !myMap[myProposedPosition.theY][myProposedPosition.theX])
             {
+                myMap[myProposedPosition.theY][myProposedPosition.theX] = true;
                 myBfsQueue.emplace_back(myProposedPosition, myCurrentSteps + 1);
             }
         }
